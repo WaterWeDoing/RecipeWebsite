@@ -1,18 +1,62 @@
 ﻿@page
 @model RecipeWebsite.Pages.AddRecipeModel
 @{
+	ViewData["Title"] = "Add Recipe";
 }
-<div class="col" >
-    <div class="row">
-        <h1>Add Recipe</h1>
-        
-        <form method="post" asp-page="AddRecipe"> 
-            <div class="mb-2">
-                <label asp-for="Recipe.Name"></label>
-                <input class="form-control" asp-for="Recipe.Name"/>
-            </div>
-            <button class="btn btn-primary" type="submit">Submit Recipe</button>
-        </form>
+<div class="col">
+	<div class="row">
+		<h1>Add Recipe</h1>
 
-    </div>
+		<form method="post" asp-page="AddRecipe" id="frmAdd">
+			<div class="mb-2">
+				<label asp-for="Recipe.Name"></label>
+				<div><span asp-validation-for="Recipe.Name" class="text-danger"></span></div>
+				<input class="form-control" asp-for="Recipe.Name" />
+			</div>
+			<div class="mb-2">
+				<label asp-for="Recipe.Description"></label>
+				<div><span asp-validation-for="Recipe.Description" class="text-danger"></span></div>
+				<textarea asp-for="Recipe.Description" class="form-control"></textarea>
+			</div>
+			<div class="mb-2">
+				<label asp-for="Recipe.Servings"></label>
+				<div><span asp-validation-for="Recipe.Servings" class="text-danger"></span></div>
+				<input asp-for="Recipe.Servings" class="form-control" />
+			</div>
+			<div class="mb-2 row">
+				<div class="col-6">
+					<label>Ingredient</label>
+					<input id="txtIng" class="form-control" />
+				</div>
+				<div class="col-6">
+					<button class="btn-primary btn mt-4" type="button" id="btnAdd">Add</button>
+				</div>
+			</div>
+			<div class="mb-2">
+				<label asp-for="Recipe.IngredientList"></label>
+				<select id="selIng" class="form-control" multiple asp-for="Recipe.IngredientList">
+				</select>
+			</div>
+			<button class="btn btn-primary" type="button" id="btnSubmit">Submit Recipe</button>
+		</form>
+
+	</div>
 </div>
+
+@section Scripts {
+@{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+<script>
+	$(() => {
+		$('#btnAdd').click(() => {
+			$('#selIng').append(`<option value='${$('#txtIng').val()}'>${$('#txtIng').val()}</option>`)
+			$('#txtIng').val('');
+			$('#txtIng').focus();
+		})
+
+		$('#btnSubmit').click(() => {
+			$("#selIng option").prop("selected", "selected");
+			$('#frmAdd').submit();
+		});
+	});
+</script>
+}

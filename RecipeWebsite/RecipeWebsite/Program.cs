@@ -1,7 +1,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using RecipeWebsite.Data;
-using RecipeWebsite.Services;
+using RecipeWebsite.Repositories;
+using RecipeWebsite.Repositories.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<RecipeDbContext>(opts =>
@@ -9,7 +10,7 @@ builder.Services.AddDbContext<RecipeDbContext>(opts =>
     opts.UseSqlServer(builder.Configuration["ConnectionStrings:DefaultConnection"]);
 });
 
-builder.Services.AddScoped<IRecipeRepo, RecipeRepo>();
+builder.Services.AddScoped<IRecipeRepo, EFRecipeRepo>();
 
 
 // Add services to the container.
