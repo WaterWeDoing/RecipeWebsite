@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using RecipeWebsite.Models;
-using RecipeWebsite.Services;
+using RecipeWebsite.Repositories.Interfaces;
 
 namespace RecipeWebsite.Pages
 {

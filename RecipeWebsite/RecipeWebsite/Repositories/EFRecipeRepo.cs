@@ -1,8 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using RecipeWebsite.Data;
+﻿using RecipeWebsite.Data;
 using RecipeWebsite.Models;
+using RecipeWebsite.Repositories.Interfaces;
 
-namespace RecipeWebsite.Services
+namespace RecipeWebsite.Repositories
 {
     public class EFRecipeRepo : IRecipeRepo
     {

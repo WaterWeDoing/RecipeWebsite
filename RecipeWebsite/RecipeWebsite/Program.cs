@@ -1,7 +1,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using RecipeWebsite.Data;
-using RecipeWebsite.Services;
+using RecipeWebsite.Repositories;
+using RecipeWebsite.Repositories.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<RecipeDbContext>(opts =>
