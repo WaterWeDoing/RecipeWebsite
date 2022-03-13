@@ -1,0 +1,18 @@
+﻿@page
+@model RecipeWebsite.Pages.AddRecipeModel
+@{
+}
+<div class="col" >
+    <div class="row">
+        <h1>Add Recipe</h1>
+        
+        <form method="post" asp-page="AddRecipe"> 
+            <div class="mb-2">
+                <label asp-for="Recipe.Name"></label>
+                <input class="form-control" asp-for="Recipe.Name"/>
+            </div>
+            <button class="btn btn-primary" type="submit">Submit Recipe</button>
+        </form>
+
+    </div>
+</div>
