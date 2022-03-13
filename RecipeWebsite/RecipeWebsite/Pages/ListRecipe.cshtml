@@ -1,0 +1,35 @@
+﻿@page
+@model RecipeWebsite.Pages.ListRecipeModel
+@{
+	ViewData["Title"] = "Recipe List";
+}
+
+<div class="row">
+	<div class="col">
+		<table class="table table-sm table-striped table-bordered">
+			<thead>
+				<tr>
+					<th>@Html.DisplayNameForInnerType((Recipe item) => item.Name)</th>
+					<th>@Html.DisplayNameForInnerType((Recipe item) => item.Description)</th>
+					<th>@Html.DisplayNameForInnerType((Recipe item) => item.IngredientList)</th>
+					<th>@Html.DisplayNameForInnerType((Recipe item) => item.Servings)</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach(var r in Model.Recipes)
+				{
+					<tr>
+						<td>@r.Name</td>
+						<td>@r.Description</td>
+						<td>@foreach(var i in r.IngredientList)
+							{
+								@(i.ToString() + " ");
+							}
+						</td>
+						<td>@r.Servings</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	</div>
+</div>

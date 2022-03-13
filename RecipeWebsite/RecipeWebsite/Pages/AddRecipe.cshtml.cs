@@ -10,8 +10,7 @@ namespace RecipeWebsite.Pages
         [BindProperty]
         public Recipe Recipe { get; set; }
 
-
-        private readonly IRecipeRepo _repo;
+		private readonly IRecipeRepo _repo;
 
 
         public AddRecipeModel(IRecipeRepo repo)
@@ -20,9 +19,10 @@ namespace RecipeWebsite.Pages
         }
 
 
-        public void OnPost()
+        public RedirectToPageResult OnPost()
         {
             _repo.AddRecipe(Recipe);
+            return RedirectToPage("ListRecipe");
         }
 
         public void OnGet()

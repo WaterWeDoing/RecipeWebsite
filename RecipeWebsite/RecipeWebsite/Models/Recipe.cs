@@ -12,7 +12,7 @@ namespace RecipeWebsite.Models
         public string Description { get; set; }
 
         [Display(Name = "Ingredients")]
-        public List<string> IngredientList { get; set; }
+        public List<string> IngredientList { get; set; } = new();
 
         public int Servings { get; set; }
     }

@@ -20,21 +20,20 @@
 				<label asp-for="Recipe.Servings"></label>
 				<input asp-for="Recipe.Servings" class="form-control" />
 			</div>
-			<div class="mb-2">
-				<label asp-for="Recipe.IngredientList"></label>
-				<select id="selIng" class="form-control" multiple>
-				</select>
-			</div>
 			<div class="mb-2 row">
 				<div class="col-6">
 					<label>Ingredient</label>
-					<input id="txtIng" class="form-control" asp-for="Recipe.IngredientList" />
+					<input id="txtIng" class="form-control" />
 				</div>
 				<div class="col-6">
 					<button class="btn-primary btn mt-4" type="button" id="btnAdd">Add</button>
 				</div>
 			</div>
-
+			<div class="mb-2">
+				<label asp-for="Recipe.IngredientList"></label>
+				<select id="selIng" class="form-control" multiple asp-for="Recipe.IngredientList">
+				</select>
+			</div>
 			<button class="btn btn-primary" type="submit">Submit Recipe</button>
 		</form>
 
@@ -42,17 +41,17 @@
 </div>
 
 @section Scripts {
-	<script>
-		$(() => {
-			$('#btnAdd').click(() => {
-				$('#selIng').append(`<option value='${$('#txtIng').val()}'>${$('#txtIng').val()}</option>`)
-				$('#txtIng').val('');
-				$('#txtIng').focus();
-			})
+<script>
+	$(() => {
+		$('#btnAdd').click(() => {
+			$('#selIng').append(`<option value='${$('#txtIng').val()}'>${$('#txtIng').val()}</option>`)
+			$('#txtIng').val('');
+			$('#txtIng').focus();
+		})
 
-			$('#frmAdd').on("submit", function () {
-				$('#selIng option').prop("selected", "selected");
-			})
+		$("form").on("submit", function () {
+			$("#selIng option").prop("selected", "selected");
 		});
-	</script>
+	});
+</script>
 }
