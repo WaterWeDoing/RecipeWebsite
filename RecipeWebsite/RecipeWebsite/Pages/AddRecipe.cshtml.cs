@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using RecipeWebsite.Models;
@@ -12,6 +13,9 @@ namespace RecipeWebsite.Pages
 
 		private readonly IRecipeRepo _repo;
 
+        [BindProperty]
+        [Display(Name = "Main Ingredient")]
+        public string MainIngredient { get; set; }
 
         public AddRecipeModel(IRecipeRepo repo)
         {
@@ -21,6 +25,12 @@ namespace RecipeWebsite.Pages
 
         public RedirectToPageResult OnPost()
         {
+            var mainIngredient = new MainIngredient
+            {
+                Ingredient = MainIngredient,
+            };
+
+            Recipe.MainIngredient.Add(mainIngredient);
             _repo.AddRecipe(Recipe);
             return RedirectToPage("ListRecipe");
         }

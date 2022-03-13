@@ -10,7 +10,7 @@ namespace RecipeWebsite.Repositories
 
         public void AddRecipe(Recipe recipe)
         {
-            recipe.Id = _currentId++;
+            recipe.RecipeId = _currentId++;
             _recipes.Add(recipe);
         }
 
@@ -18,7 +18,7 @@ namespace RecipeWebsite.Repositories
         {
             foreach(var recipe in _recipes)
             {
-                if (recipe.Id == id)
+                if (recipe.RecipeId == id)
                 {
                     return recipe;
                 }

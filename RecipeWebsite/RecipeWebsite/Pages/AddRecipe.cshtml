@@ -23,16 +23,21 @@
 				<div><span asp-validation-for="Recipe.Servings" class="text-danger"></span></div>
 				<input asp-for="Recipe.Servings" class="form-control" />
 			</div>
-			<div class="mb-2 row">
-				<div class="col-6">
-					<label>Ingredient</label>
-					<input id="txtIng" class="form-control" />
-				</div>
-				<div class="col-6">
-					<button class="btn-primary btn mt-4" type="button" id="btnAdd">Add</button>
-				</div>
-			</div>
-			<div class="mb-2">
+            <div class="mb-2 row">
+                <div class="col-6">
+                    <label>Ingredient</label>
+                    <input id="txtIng" class="form-control" />
+                </div>
+                <div class="col-6">
+                    <button class="btn-primary btn mt-4" type="button" id="btnAdd">Add</button>
+                </div>
+            </div>
+            <div class="mb-2">
+                <label asp-for="MainIngredient"></label>
+                <div><span asp-validation-for="MainIngredient" class="text-danger"></span></div>
+                <input class="form-control" asp-for="MainIngredient" />
+            </div>
+            <div class="mb-2">
 				<label asp-for="Recipe.IngredientList"></label>
 				<select id="selIng" class="form-control" multiple asp-for="Recipe.IngredientList">
 				</select>

@@ -15,6 +15,7 @@ namespace RecipeWebsite.Repositories
 
         public void AddRecipe(Recipe recipe)
         {
+            recipe.DateAdded = DateTime.Now;
             _context.Recipes.Add(recipe);
             _context.SaveChanges();
         }
@@ -26,7 +27,7 @@ namespace RecipeWebsite.Repositories
 
         public Recipe GetRecipe(int id)
         {
-            var r = _context.Recipes.FirstOrDefault(x => x.Id == id);
+            var r = _context.Recipes.FirstOrDefault(x => x.RecipeId == id);
             return r;
         }
     }

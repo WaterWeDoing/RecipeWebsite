@@ -1,0 +1,28 @@
+﻿@page
+@using Microsoft.EntityFrameworkCore
+@model RecipeWebsite.Pages.DisplayRecipeModel
+@{
+    ViewData["Title"] = Model.Recipe.Name;
+}
+
+
+<div>
+    <h1>@Model.Recipe.Name</h1>
+    <br />
+    <h2>Description</h2>
+    <p>@Model.Recipe.Description</p>
+    <h2>Ingredients</h2>
+
+    <p>
+        <ol class="list-group list-group-numbered">
+
+            @foreach (string i in Model.Recipe.IngredientList)
+            {
+                <li class="list-group-item">@i</li>
+            }
+        </ol>
+    </p>
+
+    <h2>Servings</h2>
+    <p>@Model.Recipe.Servings</p>
+</div>

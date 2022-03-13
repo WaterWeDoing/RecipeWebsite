@@ -12,21 +12,25 @@
 					<th>@Html.DisplayNameForInnerType((Recipe item) => item.Name)</th>
 					<th>@Html.DisplayNameForInnerType((Recipe item) => item.Description)</th>
 					<th>@Html.DisplayNameForInnerType((Recipe item) => item.IngredientList)</th>
-					<th>@Html.DisplayNameForInnerType((Recipe item) => item.Servings)</th>
+                    <th>@Html.DisplayNameForInnerType((Recipe item) => item.Servings)</th>
+                    <th>@Html.DisplayNameForInnerType((Recipe item) => item.DateAdded)</th>
 				</tr>
 			</thead>
 			<tbody>
 				@foreach(var r in Model.Recipes)
 				{
 					<tr>
-						<td>@r.Name</td>
+                        <td>
+                            <a asp-page="DisplayRecipe" asp-route-id="@r.RecipeId">@r.Name</a>
+                        </td>
 						<td>@r.Description</td>
 						<td>@foreach(var i in r.IngredientList)
 							{
 								@(i.ToString() + " ");
 							}
 						</td>
-						<td>@r.Servings</td>
+                        <td>@r.Servings</td>
+						<td>@Html.DisplayFor(modelItem => r.DateAdded)</td>
 					</tr>
 				}
 			</tbody>
