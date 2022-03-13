@@ -9,7 +9,7 @@ builder.Services.AddDbContext<RecipeDbContext>(opts =>
     opts.UseSqlServer(builder.Configuration["ConnectionStrings:DefaultConnection"]);
 });
 
-builder.Services.AddScoped<IRecipeRepo, RecipeRepo>();
+builder.Services.AddScoped<IRecipeRepo, EFRecipeRepo>();
 
 
 // Add services to the container.

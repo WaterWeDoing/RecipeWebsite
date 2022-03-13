@@ -29,9 +29,5 @@ namespace RecipeWebsite.Pages
         {
 
         }
-
-        
-
     }
-
 }

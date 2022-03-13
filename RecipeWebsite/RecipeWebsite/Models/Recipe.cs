@@ -7,13 +7,17 @@ namespace RecipeWebsite.Models
         [Key]
         public int Id { get; set; }
 
+        [Required]
+        [MaxLength(255), MinLength(3)]
         public string Name { get; set; }
 
-        public string Description { get; set; }
+        [MaxLength(500)]
+        public string? Description { get; set; }
 
         [Display(Name = "Ingredients")]
-        public List<string> IngredientList { get; set; } = new();
+        public ICollection<string> IngredientList { get; set; } = new HashSet<string>();
 
-        public int Servings { get; set; }
+        public int? Servings { get; set; }
     }
+
 }
