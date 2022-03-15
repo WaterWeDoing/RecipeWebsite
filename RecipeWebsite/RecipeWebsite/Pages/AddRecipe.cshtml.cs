@@ -30,7 +30,7 @@ namespace RecipeWebsite.Pages
                 Ingredient = MainIngredient,
             };
 
-            Recipe.MainIngredient.Add(mainIngredient);
+            Recipe.MainIngredients.Add(mainIngredient);
             _repo.AddRecipe(Recipe);
             return RedirectToPage("ListRecipe");
         }

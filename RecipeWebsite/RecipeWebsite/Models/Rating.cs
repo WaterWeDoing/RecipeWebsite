@@ -7,10 +7,10 @@ namespace RecipeWebsite.Models
         [Key]
         public int RatingId { get; set; }
 
+        public int RecipeId { get; set; }
+
         [Range(1,5)]
         public int UserRating { get; set; }
-
-        public int RecipeId { get; set; }
 
         ////////////////////////////////////////////////
 

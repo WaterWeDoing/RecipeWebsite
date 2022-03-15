@@ -53,19 +53,17 @@ namespace RecipeWebsite.Data.RecipeMigrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RecipeId"), 1L, 1);
 
+                    b.Property<TimeSpan>("CookTime")
+                        .HasColumnType("time");
+
                     b.Property<DateTime>("DateAdded")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("IngredientList")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LongDescription")
                         .HasMaxLength(2500)
                         .HasColumnType("nvarchar(2500)");
 
                     b.Property<string>("Meal")
-                        .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
@@ -88,6 +86,33 @@ namespace RecipeWebsite.Data.RecipeMigrations
                     b.HasKey("RecipeId");
 
                     b.ToTable("Recipes");
+                });
+
+            modelBuilder.Entity("RecipeWebsite.Models.RecipeItem", b =>
+                {
+                    b.Property<int>("RecipeItemId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RecipeItemId"), 1L, 1);
+
+                    b.Property<string>("IngredientName")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("Ingredients")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RecipeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("RecipeItemId");
+
+                    b.HasIndex("RecipeId");
+
+                    b.ToTable("RecipeItem");
                 });
 
             modelBuilder.Entity("RecipeWebsite.Models.RecipeRating", b =>
@@ -114,7 +139,18 @@ namespace RecipeWebsite.Data.RecipeMigrations
             modelBuilder.Entity("RecipeWebsite.Models.MainIngredient", b =>
                 {
                     b.HasOne("RecipeWebsite.Models.Recipe", "Recipe")
-                        .WithMany("MainIngredient")
+                        .WithMany("MainIngredients")
+                        .HasForeignKey("RecipeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Recipe");
+                });
+
+            modelBuilder.Entity("RecipeWebsite.Models.RecipeItem", b =>
+                {
+                    b.HasOne("RecipeWebsite.Models.Recipe", "Recipe")
+                        .WithMany("RecipeItems")
                         .HasForeignKey("RecipeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -125,7 +161,7 @@ namespace RecipeWebsite.Data.RecipeMigrations
             modelBuilder.Entity("RecipeWebsite.Models.RecipeRating", b =>
                 {
                     b.HasOne("RecipeWebsite.Models.Recipe", "Recipe")
-                        .WithMany("RecipeRating")
+                        .WithMany("RecipeRatings")
                         .HasForeignKey("RecipeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -135,9 +171,11 @@ namespace RecipeWebsite.Data.RecipeMigrations
 
             modelBuilder.Entity("RecipeWebsite.Models.Recipe", b =>
                 {
-                    b.Navigation("MainIngredient");
+                    b.Navigation("MainIngredients");
 
-                    b.Navigation("RecipeRating");
+                    b.Navigation("RecipeItems");
+
+                    b.Navigation("RecipeRatings");
                 });
 #pragma warning restore 612, 618
         }
