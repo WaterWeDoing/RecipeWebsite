@@ -13,8 +13,8 @@ namespace RecipeWebsite.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Recipe>()
-                .Property(e => e.IngredientList)
+            modelBuilder.Entity<RecipeItem>()
+                .Property(e => e.Ingredients)
                 .HasConversion(
                     v => JsonSerializer.Serialize(v, (JsonSerializerOptions)null),
                     v => JsonSerializer.Deserialize<List<string>>(v, (JsonSerializerOptions)null),
