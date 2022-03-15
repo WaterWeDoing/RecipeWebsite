@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using RecipeWebsite.Data;
+using RecipeWebsite.Models;
 using RecipeWebsite.Repositories;
 using RecipeWebsite.Repositories.Interfaces;
 
@@ -17,10 +18,15 @@ builder.Services.AddScoped<IRecipeRepo, EFRecipeRepo>();
 var connectionString = builder.Configuration.GetConnectionString("IdentityConnection");
 builder.Services.AddDbContext<IdentityDBContext>(options =>
     options.UseSqlServer(connectionString));
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+//builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+//    .AddEntityFrameworkStores<IdentityDBContext>();
+
+builder.Services.AddIdentity<RecipeUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<IdentityDBContext>();
+
 builder.Services.AddRazorPages();
 
 var app = builder.Build();
