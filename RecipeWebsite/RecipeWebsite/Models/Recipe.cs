@@ -8,7 +8,8 @@ namespace RecipeWebsite.Models
         [Key]
         public int RecipeId { get; set; }
 
-        public string SubbmiterId { get; set; }
+        [Required]
+        public string? SubbmiterId { get; set; }
 
         [Required]
         [MaxLength(255), MinLength(3)]

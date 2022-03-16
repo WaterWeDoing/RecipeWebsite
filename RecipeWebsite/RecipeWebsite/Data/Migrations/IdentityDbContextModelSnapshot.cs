@@ -208,9 +208,6 @@ namespace RecipeWebsite.Data.Migrations
                     b.Property<TimeSpan>("PrepTime")
                         .HasColumnType("time");
 
-                    b.Property<string>("RecipeUserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<int?>("Servings")
                         .HasColumnType("int");
 
@@ -219,9 +216,17 @@ namespace RecipeWebsite.Data.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<string>("SubbmiterId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SubmitterId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("RecipeId");
 
-                    b.HasIndex("RecipeUserId");
+                    b.HasIndex("SubmitterId");
 
                     b.ToTable("Recipe");
                 });
@@ -257,20 +262,21 @@ namespace RecipeWebsite.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RatingId"), 1L, 1);
 
-                    b.Property<int>("RecipeId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("RecipeUserId")
+                    b.Property<string>("RaterId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<int?>("RecipeId")
+                        .HasColumnType("int");
 
                     b.Property<int>("UserRating")
                         .HasColumnType("int");
 
                     b.HasKey("RatingId");
 
-                    b.HasIndex("RecipeId");
+                    b.HasIndex("RaterId");
 
-                    b.HasIndex("RecipeUserId");
+                    b.HasIndex("RecipeId");
 
                     b.ToTable("RecipeRating");
                 });
@@ -419,9 +425,13 @@ namespace RecipeWebsite.Data.Migrations
 
             modelBuilder.Entity("RecipeWebsite.Models.Recipe", b =>
                 {
-                    b.HasOne("RecipeWebsite.Models.RecipeUser", null)
+                    b.HasOne("RecipeWebsite.Models.RecipeUser", "Submitter")
                         .WithMany("Recipes")
-                        .HasForeignKey("RecipeUserId");
+                        .HasForeignKey("SubmitterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Submitter");
                 });
 
             modelBuilder.Entity("RecipeWebsite.Models.RecipeItem", b =>
@@ -437,15 +447,17 @@ namespace RecipeWebsite.Data.Migrations
 
             modelBuilder.Entity("RecipeWebsite.Models.RecipeRating", b =>
                 {
-                    b.HasOne("RecipeWebsite.Models.Recipe", "Recipe")
+                    b.HasOne("RecipeWebsite.Models.RecipeUser", "Rater")
                         .WithMany("RecipeRatings")
-                        .HasForeignKey("RecipeId")
+                        .HasForeignKey("RaterId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("RecipeWebsite.Models.RecipeUser", null)
+                    b.HasOne("RecipeWebsite.Models.Recipe", "Recipe")
                         .WithMany("RecipeRatings")
-                        .HasForeignKey("RecipeUserId");
+                        .HasForeignKey("RecipeId");
+
+                    b.Navigation("Rater");
 
                     b.Navigation("Recipe");
                 });

@@ -163,6 +163,7 @@ namespace RecipeWebsite.Data.Migrations
                 {
                     RecipeId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    SubbmiterId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     LongDescription = table.Column<string>(type: "nvarchar(2500)", maxLength: 2500, nullable: true),
                     Servings = table.Column<int>(type: "int", nullable: true),
@@ -171,16 +172,17 @@ namespace RecipeWebsite.Data.Migrations
                     PrepTime = table.Column<TimeSpan>(type: "time", nullable: false),
                     CookTime = table.Column<TimeSpan>(type: "time", nullable: false),
                     DateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    RecipeUserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    SubmitterId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Recipe", x => x.RecipeId);
                     table.ForeignKey(
-                        name: "FK_Recipe_AspNetUsers_RecipeUserId",
-                        column: x => x.RecipeUserId,
+                        name: "FK_Recipe_AspNetUsers_SubmitterId",
+                        column: x => x.SubmitterId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -229,24 +231,24 @@ namespace RecipeWebsite.Data.Migrations
                 {
                     RatingId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    RecipeId = table.Column<int>(type: "int", nullable: false),
-                    UserRating = table.Column<int>(type: "int", nullable: false),
-                    RecipeUserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    RaterId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    RecipeId = table.Column<int>(type: "int", nullable: true),
+                    UserRating = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_RecipeRating", x => x.RatingId);
                     table.ForeignKey(
-                        name: "FK_RecipeRating_AspNetUsers_RecipeUserId",
-                        column: x => x.RecipeUserId,
+                        name: "FK_RecipeRating_AspNetUsers_RaterId",
+                        column: x => x.RaterId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_RecipeRating_Recipe_RecipeId",
                         column: x => x.RecipeId,
                         principalTable: "Recipe",
-                        principalColumn: "RecipeId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "RecipeId");
                 });
 
             migrationBuilder.CreateIndex(
@@ -294,9 +296,9 @@ namespace RecipeWebsite.Data.Migrations
                 column: "RecipeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Recipe_RecipeUserId",
+                name: "IX_Recipe_SubmitterId",
                 table: "Recipe",
-                column: "RecipeUserId");
+                column: "SubmitterId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_RecipeItem_RecipeId",
@@ -304,14 +306,14 @@ namespace RecipeWebsite.Data.Migrations
                 column: "RecipeId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_RecipeRating_RaterId",
+                table: "RecipeRating",
+                column: "RaterId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_RecipeRating_RecipeId",
                 table: "RecipeRating",
                 column: "RecipeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_RecipeRating_RecipeUserId",
-                table: "RecipeRating",
-                column: "RecipeUserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
