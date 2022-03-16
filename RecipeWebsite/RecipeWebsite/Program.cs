@@ -9,17 +9,14 @@ using RecipeWebsite.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<RecipeDbContext>(opts =>
-{
-    opts.UseSqlServer(builder.Configuration["ConnectionStrings:DefaultConnection"]);
-});
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<RecipeDbContext>(options =>
+    options.UseSqlServer(connectionString));
 
 builder.Services.AddIdentity<RecipeUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<IdentityDbContext>();
-
-var connectionString = builder.Configuration.GetConnectionString("IdentityConnection");
-builder.Services.AddDbContext<IdentityDbContext>(options =>
-    options.UseSqlServer(connectionString));
+    .AddDefaultUI()
+    .AddDefaultTokenProviders()
+    .AddEntityFrameworkStores<RecipeDbContext>();
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 

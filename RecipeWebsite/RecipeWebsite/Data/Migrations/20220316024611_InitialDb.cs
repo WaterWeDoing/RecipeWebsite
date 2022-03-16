@@ -28,9 +28,9 @@ namespace RecipeWebsite.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    DisplayName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(75)", maxLength: 75, nullable: false),
+                    DisplayName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    LastName = table.Column<string>(type: "nvarchar(75)", maxLength: 75, nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -158,7 +158,7 @@ namespace RecipeWebsite.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Recipe",
+                name: "Recipes",
                 columns: table => new
                 {
                     RecipeId = table.Column<int>(type: "int", nullable: false)
@@ -172,17 +172,16 @@ namespace RecipeWebsite.Data.Migrations
                     PrepTime = table.Column<TimeSpan>(type: "time", nullable: false),
                     CookTime = table.Column<TimeSpan>(type: "time", nullable: false),
                     DateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    SubmitterId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    SubmitterId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Recipe", x => x.RecipeId);
+                    table.PrimaryKey("PK_Recipes", x => x.RecipeId);
                     table.ForeignKey(
-                        name: "FK_Recipe_AspNetUsers_SubmitterId",
+                        name: "FK_Recipes_AspNetUsers_SubmitterId",
                         column: x => x.SubmitterId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -198,9 +197,9 @@ namespace RecipeWebsite.Data.Migrations
                 {
                     table.PrimaryKey("PK_MainIngredient", x => x.MainIngredientId);
                     table.ForeignKey(
-                        name: "FK_MainIngredient_Recipe_RecipeId",
+                        name: "FK_MainIngredient_Recipes_RecipeId",
                         column: x => x.RecipeId,
-                        principalTable: "Recipe",
+                        principalTable: "Recipes",
                         principalColumn: "RecipeId",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -212,15 +211,16 @@ namespace RecipeWebsite.Data.Migrations
                     RecipeItemId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     RecipeId = table.Column<int>(type: "int", nullable: false),
+                    Ingredients = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IngredientName = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_RecipeItem", x => x.RecipeItemId);
                     table.ForeignKey(
-                        name: "FK_RecipeItem_Recipe_RecipeId",
+                        name: "FK_RecipeItem_Recipes_RecipeId",
                         column: x => x.RecipeId,
-                        principalTable: "Recipe",
+                        principalTable: "Recipes",
                         principalColumn: "RecipeId",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -245,9 +245,9 @@ namespace RecipeWebsite.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_RecipeRating_Recipe_RecipeId",
+                        name: "FK_RecipeRating_Recipes_RecipeId",
                         column: x => x.RecipeId,
-                        principalTable: "Recipe",
+                        principalTable: "Recipes",
                         principalColumn: "RecipeId");
                 });
 
@@ -296,11 +296,6 @@ namespace RecipeWebsite.Data.Migrations
                 column: "RecipeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Recipe_SubmitterId",
-                table: "Recipe",
-                column: "SubmitterId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_RecipeItem_RecipeId",
                 table: "RecipeItem",
                 column: "RecipeId");
@@ -314,6 +309,11 @@ namespace RecipeWebsite.Data.Migrations
                 name: "IX_RecipeRating_RecipeId",
                 table: "RecipeRating",
                 column: "RecipeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Recipes_SubmitterId",
+                table: "Recipes",
+                column: "SubmitterId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -346,7 +346,7 @@ namespace RecipeWebsite.Data.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Recipe");
+                name: "Recipes");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
