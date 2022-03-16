@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using RecipeWebsite.Data;
 using RecipeWebsite.Models;
 using RecipeWebsite.Repositories;
 using RecipeWebsite.Repositories.Interfaces;
+using RecipeWebsite.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,18 +14,21 @@ builder.Services.AddDbContext<RecipeDbContext>(opts =>
     opts.UseSqlServer(builder.Configuration["ConnectionStrings:DefaultConnection"]);
 });
 
+builder.Services.AddIdentity<RecipeUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<IdentityDbContext>();
+
 var connectionString = builder.Configuration.GetConnectionString("IdentityConnection");
-builder.Services.AddDbContext<IdentityDBContext>(options =>
+builder.Services.AddDbContext<IdentityDbContext>(options =>
     options.UseSqlServer(connectionString));
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-//builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-//    .AddEntityFrameworkStores<IdentityDBContext>();
-
 builder.Services.AddRazorPages();
 
 builder.Services.AddScoped<IRecipeRepo, EFRecipeRepo>();
+builder.Services.AddScoped<IEmailSender, IdentityEmailSender>();
+
+builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
 
 var app = builder.Build();
 
