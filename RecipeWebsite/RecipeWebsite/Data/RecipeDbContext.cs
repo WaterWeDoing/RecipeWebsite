@@ -8,10 +8,7 @@ namespace RecipeWebsite.Data
 {
     public class RecipeDbContext : IdentityDbContext<RecipeUser>
     {
-        public RecipeDbContext(DbContextOptions<RecipeDbContext> options)
-            : base(options)
-        {
-        }
+        public RecipeDbContext(DbContextOptions<RecipeDbContext> options) : base(options) {}
 
         public DbSet<Recipe> Recipes { get; set; }
 
