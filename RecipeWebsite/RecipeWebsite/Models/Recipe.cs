@@ -9,6 +9,9 @@ namespace RecipeWebsite.Models
         public int RecipeId { get; set; }
 
         [Required]
+        public string? SubbmiterId { get; set; }
+
+        [Required]
         [MaxLength(255), MinLength(3)]
         public string? Name { get; set; }
         
@@ -38,6 +41,8 @@ namespace RecipeWebsite.Models
 
 
         ///////////////////// Navigation Properties
+
+        public RecipeUser Submitter { get; set; }
 
         public ICollection<RecipeRating> RecipeRatings { get; set; } = new HashSet<RecipeRating>();
 

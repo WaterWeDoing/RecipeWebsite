@@ -19,8 +19,5 @@ namespace RecipeWebsite.Models
         /////////////////////////////////////////
 
         public Recipe Recipe { get; set; }
-
-
-
     }
 }

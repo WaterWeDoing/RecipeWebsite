@@ -6,20 +6,19 @@ namespace RecipeWebsite.Models
 {
     public class RecipeUser : IdentityUser
     {
-        [Required]
         [StringLength(50, ErrorMessage = "The {0} must be at least {2} and at most {1} characters.", MinimumLength = 2)]
         [Display(Name = "Display Name")]
-        public string DisplayName { get; set; }
+        public string? DisplayName { get; set; }
 
         [Required]
         [StringLength(50, ErrorMessage = "The {0} must be at least {2} and at most {1} characters.", MinimumLength = 2)]
         [Display(Name = "First Name")]
-        public string FirstName { get; set; }
+        public string? FirstName { get; set; }
 
         [Required]
         [StringLength(75, ErrorMessage = "The {0} must be at least {2} and at most {1} characters.", MinimumLength = 2)]
         [Display(Name = "Last Name")]
-        public string LastName { get; set; }
+        public string? LastName { get; set; }
 
         [NotMapped]
         public string FullName { get => $"{FirstName} {LastName}"; }
