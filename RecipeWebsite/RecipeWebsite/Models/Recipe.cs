@@ -9,7 +9,7 @@ namespace RecipeWebsite.Models
         public int RecipeId { get; set; }
 
         [Required]
-        public string? SubbmiterId { get; set; }
+        public string? SubmitterId { get; set; }
 
         [Required]
         [MaxLength(255), MinLength(3)]
@@ -26,14 +26,25 @@ namespace RecipeWebsite.Models
         [Required]
         public string? ShortDescription { get; set; }
 
+        [NotMapped]
+        [Display(Name = "Recipe Image")]
+        public IFormFile? FormFile { get; set; }
+
+        public byte[]? PhotoImage { get; set; }
+        
+        [MaxLength(50)]
+        public string? ContentType { get; set; }
+
+
+
         [MaxLength(20)]
         public string? Meal { get; set; }
 
         [Display(Name = "Preparation Time")]
-        public TimeSpan PrepTime{ get; set; }
+        public int PrepTime{ get; set; }
 
         [Display(Name = "Cooking Time")]
-        public TimeSpan CookTime { get; set; }
+        public int CookTime { get; set; }
 
         [Display(Name = "Date Added")]
         [DataType(DataType.Date)]

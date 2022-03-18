@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Org.BouncyCastle.Utilities.IO.Pem;
 
 namespace RecipeWebsite.Models
 {
@@ -23,7 +24,10 @@ namespace RecipeWebsite.Models
         [NotMapped]
         public string FullName { get => $"{FirstName} {LastName}"; }
 
+
         public virtual ICollection<Recipe> Recipes { get; set; } = new HashSet<Recipe>();
-        public virtual ICollection<RecipeRating> RecipeRatings { get; set; } = new HashSet<RecipeRating>();
+        public virtual ICollection<RecipeRating> Ratings { get; set; } = new HashSet<RecipeRating>();
+        public virtual ICollection<RecipeComment> Comments { get; set; } = new HashSet<RecipeComment>();
+
     }
 }

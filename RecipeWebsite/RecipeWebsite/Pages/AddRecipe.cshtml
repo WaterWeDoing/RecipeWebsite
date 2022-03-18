@@ -1,5 +1,7 @@
 ﻿@page
 @model RecipeWebsite.Pages.AddRecipeModel
+@using Microsoft.AspNetCore.Mvc.Rendering
+@using RecipeWebsite.Enums
 @{
 	ViewData["Title"] = "Add Recipe";
 }
@@ -18,31 +20,75 @@
 				<div><span asp-validation-for="Recipe.LongDescription" class="text-danger"></span></div>
 				<textarea asp-for="Recipe.LongDescription" class="form-control"></textarea>
 			</div>
-			<div class="mb-2">
-				<label asp-for="Recipe.Servings"></label>
-				<div><span asp-validation-for="Recipe.Servings" class="text-danger"></span></div>
-				<input asp-for="Recipe.Servings" class="form-control" />
-			</div>
+            <div class="mb-2">
+                <label asp-for="Recipe.Servings"></label>
+                <div><span asp-validation-for="Recipe.Servings" class="text-danger"></span></div>
+                <input asp-for="Recipe.Servings" class="form-control" />
+            </div>
+            <div class="mb-2">
+                <label asp-for="Recipe.Meal"></label>
+                <select asp-for="Recipe.Meal" 
+                        class="form-control form-select" 
+                        asp-items="@Model.MealSelect"></select>
+            </div>
+            
+
             <div class="mb-2 row">
-                <div class="col-6">
-                    <label>Ingredient</label>
-                    <input id="txtIng" class="form-control" />
+                <div class="col-3">
+                    <label asp-for="PrepTimeHour"></label>
+                    <input asp-for="PrepTimeHour" class="form-control" />
                 </div>
-                <div class="col-6">
-                    <button class="btn-primary btn mt-4" type="button" id="btnAdd">Add</button>
+                <div class="col-3">
+                    <label asp-for="PrepTimeMinute"></label>
+                    <input asp-for="PrepTimeMinute" class="form-control" />
+                </div>
+                <div class="col-3">
+                    <label asp-for="CookTimeHour"></label>
+                    <input asp-for="CookTimeHour" class="form-control" />
+                </div>
+                <div class="col-3">
+                    <label asp-for="CookTimeMinute"></label>
+                    <input asp-for="CookTimeMinute" class="form-control" />
                 </div>
             </div>
+			
+
             <div class="mb-2">
                 <label asp-for="MainIngredient"></label>
                 <div><span asp-validation-for="MainIngredient" class="text-danger"></span></div>
                 <input class="form-control" asp-for="MainIngredient" />
             </div>
-@*            <div class="mb-2">
-				<label asp-for="Recipe.IngredientList"></label>
-				<select id="selIng" class="form-control" multiple asp-for="Recipe.IngredientList">
-				</select>
-			</div>*@
-			<button class="btn btn-primary" type="button" id="btnSubmit">Submit Recipe</button>
+            <div class="mb-2">
+                <label asp-for="Recipe.ShortDescription"></label>
+                <div><span asp-validation-for="Recipe.ShortDescription" class="text-danger"></span></div>
+                <textarea asp-for="Recipe.ShortDescription" class="form-control"></textarea>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Recipe.FormFile" class="form-label"></label>
+                <input type="file" asp-for="Recipe.FormFile" class="form-control" accept=".jpg,.png,.webp,.gif,.jpeg" />
+                <span asp-validation-for="Recipe.FormFile" class="text-danger"></span>
+            </div>
+
+            <div class="mb-2 row">
+                <div class="col-6">
+                    <label asp-for="Recipe.RecipeItems"></label>
+                    <input id="txtItems" class="form-control" />
+                </div>
+                <div class="col-6">
+                    <button class="btn-primary btn mt-4" type="button" id="btnAdd">Add</button>
+                </div>
+            </div>
+
+            <div class="mb-2 row">
+                <select class="form-control form-select" multiple="3" id="selItems">
+
+                </select>
+            </div>
+
+            
+
+           
+            <button class="btn btn-primary" type="button" id="btnSubmit">Submit Recipe</button>
 		</form>
 
 	</div>
@@ -53,13 +99,13 @@
 <script>
 	$(() => {
 		$('#btnAdd').click(() => {
-			$('#selIng').append(`<option value='${$('#txtIng').val()}'>${$('#txtIng').val()}</option>`)
-			$('#txtIng').val('');
-			$('#txtIng').focus();
+			$('#selItems').append(`<option value='${$('#txtItems').val()}'>${$('#txtItems').val()}</option>`)
+			$('#txtItems').val('');
+			$('#txtItems').focus();
 		})
 
 		$('#btnSubmit').click(() => {
-			$("#selIng option").prop("selected", "selected");
+			$("#selItems option").prop("selected", "selected");
 			$('#frmAdd').submit();
 		});
 	});

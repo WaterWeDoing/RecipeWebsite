@@ -7,7 +7,10 @@ namespace RecipeWebsite.Models
         [Key]
         public int RecipeItemId { get; set; }
 
+        public int RecipeDirectionId { get; set; }
+
         public int RecipeId { get; set; }
+
 
         public ICollection<string> Ingredients { get; set; } = new HashSet<string>();
 
@@ -19,5 +22,7 @@ namespace RecipeWebsite.Models
         /////////////////////////////////////////
 
         public Recipe Recipe { get; set; }
+
+        public RecipeDirection RecipeDirection { get; set; }
     }
 }

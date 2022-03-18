@@ -6,6 +6,7 @@ using RecipeWebsite.Models;
 using RecipeWebsite.Repositories;
 using RecipeWebsite.Repositories.Interfaces;
 using RecipeWebsite.Services;
+using RecipeWebsite.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +25,8 @@ builder.Services.AddRazorPages();
 
 builder.Services.AddScoped<IRecipeRepo, EFRecipeRepo>();
 builder.Services.AddScoped<IEmailSender, IdentityEmailSender>();
+builder.Services.AddScoped<IImageService, ImageService>();
+
 
 builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
 
