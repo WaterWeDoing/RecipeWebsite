@@ -59,6 +59,7 @@ namespace RecipeWebsite.Models
 
         public ICollection<MainIngredient> MainIngredients { get; set; } = new HashSet<MainIngredient>();
 
+        [Display(Name="Items")]
         public ICollection<RecipeItem> RecipeItems { get; set; } = new HashSet<RecipeItem>();
 
     }

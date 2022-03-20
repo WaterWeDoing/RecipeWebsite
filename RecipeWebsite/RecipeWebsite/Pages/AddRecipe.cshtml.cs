@@ -17,17 +17,21 @@ namespace RecipeWebsite.Pages
 
 
         [BindProperty]
+        [Display(Name="Preparation Hours")]
         public int PrepTimeHour { get; set; }
 
         [BindProperty]
+        [Display(Name = "Preparation Minutes")]
 
         public int PrepTimeMinute { get; set; }
 
         [BindProperty]
+        [Display(Name = "Cook Hours")]
 
         public int CookTimeHour { get; set; }
 
         [BindProperty]
+        [Display(Name = "Cook Minutes")]
 
         public int CookTimeMinute { get; set; }
 
