@@ -38,9 +38,9 @@
                 const ing = $(`.txtIng[data-id=${Id}]`).val();
                 const sel = $(`.selItems[data-id=${Id}]`);
 
-                sel.append(`<option value='${ing}}'>${ing}</option>`)
+                sel.append(`<option value='${ing}}'>${ing}</option>`);
+                $(`.txtIng[data-id=${Id}]`).val('');
 
-                alert(ing);
             });
         });
     </script>
