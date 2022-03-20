@@ -20,10 +20,12 @@
         </div>
 
         <div>
-            <select  multiple="3" data-id="@r.RecipeItemId" class="form-control form-select selItems">
+            <select  multiple rows="3" data-id="@r.RecipeItemId" class="form-control form-select selItems">
             </select>
         </div>
     }
+
+    <button type="button" class="btn btn-primary" id="btnSubmit">Submit</button>
 </form>
 
 
@@ -42,6 +44,19 @@
                 $(`.txtIng[data-id=${Id}]`).val('');
 
             });
+
+            $('#btnSubmit').click(() => {
+                $('.selItems').each(function (index) {
+                    const id = $(this).data("id");
+                    let items = [];
+                    $(`.selItems[data-id=${id}] option`).each(function(index) {
+                        items.push($(this).val())
+                    })
+
+                   // AJAX submit here
+                   // Then redirect
+                });
+            })
         });
     </script>
 
