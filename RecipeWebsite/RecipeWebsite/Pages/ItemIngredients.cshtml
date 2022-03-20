@@ -19,7 +19,6 @@
             </div>
         </div>
 
-
         <div>
             <select  multiple="3" data-id="@r.RecipeItemId" class="form-control form-select selItems">
             </select>
@@ -36,7 +35,11 @@
 
             $('.btnAdd').click(function() {
                 const Id = $(this).data("id");
-                const ing = $('.txtIng').find(`[data-id]=${Id}`);
+                const ing = $(`.txtIng[data-id=${Id}]`).val();
+                const sel = $(`.selItems[data-id=${Id}]`);
+
+                sel.append(`<option value='${ing}}'>${ing}</option>`)
+
                 alert(ing);
             });
         });
