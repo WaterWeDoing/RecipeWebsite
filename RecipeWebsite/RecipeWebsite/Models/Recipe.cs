@@ -8,7 +8,7 @@ namespace RecipeWebsite.Models
         [Key]
         public int RecipeId { get; set; }
 
-        [Required]
+        
         public string? SubmitterId { get; set; }
 
         [Required]
@@ -53,7 +53,7 @@ namespace RecipeWebsite.Models
 
         ///////////////////// Navigation Properties
 
-        public RecipeUser Submitter { get; set; }
+        public RecipeUser? Submitter { get; set; }
 
         public ICollection<RecipeRating> RecipeRatings { get; set; } = new HashSet<RecipeRating>();
 

@@ -71,7 +71,7 @@
 
             <div class="mb-2 row">
                 <div class="col-6">
-                    <label asp-for="Recipe.RecipeItems"></label>
+                    <label asp-for="RecipeItems"></label>
                     <input id="txtItems" class="form-control" />
                 </div>
                 <div class="col-6">
@@ -80,7 +80,7 @@
             </div>
 
             <div class="mb-2 row">
-                <select class="form-control form-select" multiple="3" id="selItems">
+                <select asp-for="RecipeItems" class="form-control form-select" multiple="3" id="selItems">
 
                 </select>
             </div>
@@ -99,8 +99,11 @@
 <script>
 	$(() => {
 		$('#btnAdd').click(() => {
+            if ($('#txtItems').val() == '') {
+                return;
+            }
 			$('#selItems').append(`<option value='${$('#txtItems').val()}'>${$('#txtItems').val()}</option>`)
-			$('#txtItems').val('');
+            $('#txtItems').val('');
 			$('#txtItems').focus();
 		})
 

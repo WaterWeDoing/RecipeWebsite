@@ -1,0 +1,49 @@
+﻿@page "/item/{Id:int}"
+@using Microsoft.EntityFrameworkCore
+@using Microsoft.EntityFrameworkCore.Metadata.Internal
+@model RecipeWebsite.Pages.ItemIngredientsModel
+@{
+}
+<form>
+    @foreach (var r in Model.Recipe.RecipeItems)
+    {
+        <p>@r.Item</p>
+
+        <div class="mb-2 row">
+            <div class="col-6">
+                <label>Ingredient</label>
+                <input  data-id="@r.RecipeItemId" class="form-control txtIng" />
+            </div>
+            <div class="col-6">
+                <button class="btn-primary btnAdd btn mt-4" type="button" data-id="@r.RecipeItemId" >Add</button>
+            </div>
+        </div>
+
+
+        <div>
+            <select  multiple="3" data-id="@r.RecipeItemId" class="form-control form-select selItems">
+            </select>
+        </div>
+    }
+</form>
+
+
+
+@section Scripts
+{
+    <script>
+        $(() => {
+
+            $('.btnAdd').click(function() {
+                const Id = $(this).data("id");
+                const ing = $('.txtIng').find(`[data-id]=${Id}`);
+                alert(ing);
+            });
+        });
+    </script>
+
+
+}
+
+
+

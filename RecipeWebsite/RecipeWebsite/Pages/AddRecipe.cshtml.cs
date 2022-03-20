@@ -35,7 +35,8 @@ namespace RecipeWebsite.Pages
 
         public int CookTimeMinute { get; set; }
 
-
+        [BindProperty]
+        public List<string> RecipeItems { get; set; }
 
         private readonly IRecipeRepo _repo;
 
@@ -49,6 +50,8 @@ namespace RecipeWebsite.Pages
         }
 
 
+
+
         public RedirectToPageResult OnPost()
         {
             var mainIngredient = new MainIngredient
@@ -60,6 +63,11 @@ namespace RecipeWebsite.Pages
             Recipe.CookTime = (CookTimeHour * 60) + CookTimeMinute;
 
             Recipe.MainIngredients.Add(mainIngredient);
+            foreach (var recipeRecipeItem in RecipeItems)
+            {
+                var recipe = new RecipeItem() {Item = recipeRecipeItem};
+                Recipe.RecipeItems.Add(recipe);
+            }
             _repo.AddRecipe(Recipe);
 
 
@@ -67,7 +75,7 @@ namespace RecipeWebsite.Pages
 
 
 
-            return RedirectToPage("ListRecipe");
+            return RedirectToPage("ItemIngredients", new {Id = Recipe.RecipeId} );
         }
 
         public void OnGet()
