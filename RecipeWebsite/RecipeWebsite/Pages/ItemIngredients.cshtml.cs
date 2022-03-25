@@ -19,18 +19,21 @@ namespace RecipeWebsite.Pages
         }
 
 
-        public void OnPost(List<string> ingredients, int recipeId, string item) 
+        public IActionResult OnPost(List<string> ingredients, int recipeItemId, string item) 
         {
-            var test = ingredients;
-            var testid = recipeId;
+            // We need to get the existing item from the DB here
 
+            // We update it here
             RecipeItem recipeItem = new RecipeItem()
             {
-                RecipeId = recipeId,
+                RecipeItemId = recipeItemId,
                 Ingredients = ingredients,
                 Item = item,
             };
 
+            // We need to save the item to the DB here.
+
+            return new StatusCodeResult(StatusCodes.Status200OK);
         }
 
         public void OnGet(int Id)
