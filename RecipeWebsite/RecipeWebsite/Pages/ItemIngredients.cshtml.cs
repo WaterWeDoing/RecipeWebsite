@@ -19,19 +19,13 @@ namespace RecipeWebsite.Pages
         }
 
 
-        public IActionResult OnPost(List<string> ingredients, int recipeItemId, string item) 
+        public IActionResult OnPost(List<RecipeItemsTarget> recipeItems) 
         {
-            // We need to get the existing item from the DB here
+            // We need to loop over each item
+            // pull it from the database based on the recipeItemId
+            // update it
+            // save it back to to db
 
-            // We update it here
-            RecipeItem recipeItem = new RecipeItem()
-            {
-                RecipeItemId = recipeItemId,
-                Ingredients = ingredients,
-                Item = item,
-            };
-
-            // We need to save the item to the DB here.
 
             return new StatusCodeResult(StatusCodes.Status200OK);
         }
@@ -40,6 +34,13 @@ namespace RecipeWebsite.Pages
         {
             Recipe = _recipeRepo.GetRecipe(Id);
 
+        }
+
+        public class RecipeItemsTarget
+        {
+            public int RecipeItemId { get; set; }
+            public List<string> Ingredients { get; set; }
+            public string Item { get; set; }
         }
     }
 }

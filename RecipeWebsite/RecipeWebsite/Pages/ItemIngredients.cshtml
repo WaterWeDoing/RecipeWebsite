@@ -48,6 +48,8 @@
     });
 
     $('#btnSubmit').click(() => {
+        let recipeItems = [];
+
         $('.selItems').each(function(index) {
             const id = $(this).data("id");
             const item = $(this).data("item");
@@ -56,26 +58,32 @@
                 items.push($(this).val())
             })
 
-            const options = {
+            const recipeItem = {
+                RecipeItemId: id,
+                Item: item,
+                Ingredients: items,
+            };
+            recipeItems.push(recipeItem);
+        });
+
+         const options = {
                 headers: {
                     RequestVerificationToken: $('input:hidden[name="__RequestVerificationToken"]').val()
                 },
                 method: "POST",
                 url: "/item",
                 data: {
-                    ingredients: items,
-                    recipeItemId: id,
-                    item: item
+                    recipeItems: recipeItems
                 }
             }
 
             $.ajax(options).done(() => {
-
+                //alert("Doing it!");
+                window.location.replace("/");
             }).fail(() => {
                 alert("Ajax Call Failed!");
             })
-        });
-        //window.location.replace("/")
+
     })
 });
 </script>
