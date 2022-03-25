@@ -1,10 +1,12 @@
-﻿@page "/item/{Id:int}"
+﻿@page "/item/{Id:int?}"
 @using Microsoft.EntityFrameworkCore
 @using Microsoft.EntityFrameworkCore.Metadata.Internal
 @model RecipeWebsite.Pages.ItemIngredientsModel
 @{
 }
 <form>
+    @Html.AntiForgeryToken()
+
     @foreach (var r in Model.Recipe.RecipeItems)
     {
         <p>@r.Item</p>
@@ -12,15 +14,15 @@
         <div class="mb-2 row">
             <div class="col-6">
                 <label>Ingredient</label>
-                <input  data-id="@r.RecipeItemId" class="form-control txtIng" />
+                <input data-id="@r.RecipeItemId" class="form-control txtIng" />
             </div>
             <div class="col-6">
-                <button class="btn-primary btnAdd btn mt-4" type="button" data-id="@r.RecipeItemId" >Add</button>
+                <button class="btn-primary btnAdd btn mt-4" type="button" data-id="@r.RecipeItemId">Add</button>
             </div>
         </div>
 
         <div>
-            <select  multiple rows="3" data-id="@r.RecipeItemId" class="form-control form-select selItems">
+            <select multiple rows="3" data-id="@r.RecipeItemId" class="form-control form-select selItems" data-item="@r.Item">
             </select>
         </div>
     }
@@ -32,33 +34,51 @@
 
 @section Scripts
 {
-    <script>
-        $(() => {
+<script>
+    $(() => {
 
-            $('.btnAdd').click(function() {
-                const Id = $(this).data("id");
-                const ing = $(`.txtIng[data-id=${Id}]`).val();
-                const sel = $(`.selItems[data-id=${Id}]`);
+    $('.btnAdd').click(function() {
+        const Id = $(this).data("id");
+        const ing = $(`.txtIng[data-id=${Id}]`).val();
+        const sel = $(`.selItems[data-id=${Id}]`);
 
-                sel.append(`<option value='${ing}}'>${ing}</option>`);
-                $(`.txtIng[data-id=${Id}]`).val('');
+        sel.append(`<option value='${ing}}'>${ing}</option>`);
+        $(`.txtIng[data-id=${Id}]`).val('');
 
-            });
+    });
 
-            $('#btnSubmit').click(() => {
-                $('.selItems').each(function (index) {
-                    const id = $(this).data("id");
-                    let items = [];
-                    $(`.selItems[data-id=${id}] option`).each(function(index) {
-                        items.push($(this).val())
-                    })
+    $('#btnSubmit').click(() => {
+        $('.selItems').each(function(index) {
+            const id = $(this).data("id");
+            const item = $(this).data("item");
+            let items = [];
+            $(`.selItems[data-id=${id}] option`).each(function(index) {
+                items.push($(this).val())
+            })
 
-                   // AJAX submit here
-                   // Then redirect
-                });
+            const options = {
+                headers: {
+                    RequestVerificationToken: $('input:hidden[name="__RequestVerificationToken"]').val()
+                },
+                method: "POST",
+                url: "/item",
+                data: {
+                    ingredients: items,
+                    recipeId: id,
+                    item: item
+                }
+            }
+
+            $.ajax(options).done(() => {
+
+            }).fail(() => {
+                alert("Ajax Call Failed!");
             })
         });
-    </script>
+        window.location.replace("/")
+    })
+});
+</script>
 
 
 }

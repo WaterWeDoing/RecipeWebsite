@@ -19,11 +19,23 @@ namespace RecipeWebsite.Pages
         }
 
 
+        public void OnPost(List<string> ingredients, int recipeId, string item) 
+        {
+            var test = ingredients;
+            var testid = recipeId;
+
+            RecipeItem recipeItem = new RecipeItem()
+            {
+                RecipeId = recipeId,
+                Ingredients = ingredients,
+                Item = item,
+            };
+
+        }
+
         public void OnGet(int Id)
         {
             Recipe = _recipeRepo.GetRecipe(Id);
-
-
 
         }
     }

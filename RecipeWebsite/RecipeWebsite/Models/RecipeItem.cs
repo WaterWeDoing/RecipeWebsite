@@ -15,7 +15,7 @@ namespace RecipeWebsite.Models
         public ICollection<string> Ingredients { get; set; } = new HashSet<string>();
 
         [Required]
-        [Display(Name = "Ingredient")]
+        [Display(Name = "Recipe Item")]
         [StringLength(255)]
         public string? Item { get; set; }
 
