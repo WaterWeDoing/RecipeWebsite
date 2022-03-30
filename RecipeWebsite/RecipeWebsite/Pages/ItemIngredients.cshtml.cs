@@ -10,22 +10,32 @@ namespace RecipeWebsite.Pages
     public class ItemIngredientsModel : PageModel
     {
         private readonly IRecipeRepo _recipeRepo;
+
+        private readonly IRecipeItemRepo _recipeItemRepo;
+
         public Recipe Recipe { get; set; }
 
-
-        public ItemIngredientsModel(IRecipeRepo recipeRepo)
+        public ItemIngredientsModel(IRecipeRepo recipeRepo, IRecipeItemRepo recipeItemRepo)
         {
             _recipeRepo = recipeRepo;
+            _recipeItemRepo = recipeItemRepo;
         }
 
 
-        public IActionResult OnPost(List<RecipeItemsTarget> recipeItems) 
+        public IActionResult OnPost(List<RecipeItem> recipeItems) 
         {
-            // We need to loop over each item
-            // pull it from the database based on the recipeItemId
-            // update it
-            // save it back to to db
+            foreach (RecipeItem item in recipeItems)
+            {
+                RecipeItem? itemDb = _recipeItemRepo.GetRecipeItem(item.RecipeItemId);
+                if (itemDb == null)
+                {
+                    return new StatusCodeResult(StatusCodes.Status404NotFound);
+                }                
 
+                itemDb.Item = item.Item;
+                itemDb.Ingredients = item.Ingredients;
+                _recipeItemRepo.SaveRecipeItem(itemDb);
+            }
 
             return new StatusCodeResult(StatusCodes.Status200OK);
         }
@@ -36,11 +46,6 @@ namespace RecipeWebsite.Pages
 
         }
 
-        public class RecipeItemsTarget
-        {
-            public int RecipeItemId { get; set; }
-            public List<string> Ingredients { get; set; }
-            public string Item { get; set; }
-        }
+        
     }
 }

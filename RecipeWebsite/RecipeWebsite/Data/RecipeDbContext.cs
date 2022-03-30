@@ -12,6 +12,10 @@ namespace RecipeWebsite.Data
 
         public DbSet<Recipe> Recipes { get; set; }
 
+        public DbSet<RecipeItem> RecipeItems { get; set; }
+
+
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<RecipeItem>()

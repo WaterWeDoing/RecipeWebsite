@@ -29,13 +29,12 @@ namespace RecipeWebsite.Repositories
             return _context.Recipes.Include(r => r.RecipeItems).ToList();
         }
 
-        public Recipe GetRecipe(int id)
+        public Recipe? GetRecipe(int id)
         {
-
-
             var r = _context.Recipes
                 .Include(r => r.RecipeItems)
-                .FirstOrDefault(x => x.RecipeId == id);
+                .SingleOrDefault(x => x.RecipeId == id);
+
             return r;
         }
     }

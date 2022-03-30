@@ -26,6 +26,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddScoped<IRecipeRepo, EFRecipeRepo>();
 builder.Services.AddScoped<IEmailSender, IdentityEmailSender>();
 builder.Services.AddScoped<IImageService, ImageService>();
+builder.Services.AddScoped<IRecipeItemRepo, EFRecipeItemRepo>();
 
 
 builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));

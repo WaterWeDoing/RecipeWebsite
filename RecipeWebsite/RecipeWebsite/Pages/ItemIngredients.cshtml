@@ -1,6 +1,4 @@
 ﻿@page "/item/{Id:int?}"
-@using Microsoft.EntityFrameworkCore
-@using Microsoft.EntityFrameworkCore.Metadata.Internal
 @model RecipeWebsite.Pages.ItemIngredientsModel
 @{
 }
@@ -78,7 +76,6 @@
             }
 
             $.ajax(options).done(() => {
-                //alert("Doing it!");
                 window.location.replace("/");
             }).fail(() => {
                 alert("Ajax Call Failed!");
