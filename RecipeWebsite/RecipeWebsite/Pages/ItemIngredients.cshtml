@@ -23,6 +23,10 @@
             <select multiple rows="3" data-id="@r.RecipeItemId" class="form-control form-select selItems" data-item="@r.Item">
             </select>
         </div>
+        <div>
+            <textarea data-id="@r.RecipeItemId"  class="form-control txtDirections"></textarea>
+        </div>
+
     }
 
     <button type="button" class="btn btn-primary" id="btnSubmit">Submit</button>
@@ -36,12 +40,12 @@
     $(() => {
 
     $('.btnAdd').click(function() {
-        const Id = $(this).data("id");
-        const ing = $(`.txtIng[data-id=${Id}]`).val();
-        const sel = $(`.selItems[data-id=${Id}]`);
-
+        const id = $(this).data("id");
+        const ing = $(`.txtIng[data-id=${id}]`).val();
+        const sel = $(`.selItems[data-id=${id}]`);
+        
         sel.append(`<option value='${ing}}'>${ing}</option>`);
-        $(`.txtIng[data-id=${Id}]`).val('');
+        $(`.txtIng[data-id=${id}]`).val('');
 
     });
 
@@ -51,6 +55,7 @@
         $('.selItems').each(function(index) {
             const id = $(this).data("id");
             const item = $(this).data("item");
+            const directions = $(`.txtDirections[data-id=${id}]`).val();
             let items = [];
             $(`.selItems[data-id=${id}] option`).each(function(index) {
                 items.push($(this).val())
@@ -60,6 +65,7 @@
                 RecipeItemId: id,
                 Item: item,
                 Ingredients: items,
+                RecipeDirection: directions,
             };
             recipeItems.push(recipeItem);
         });

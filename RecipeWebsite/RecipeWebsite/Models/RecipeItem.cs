@@ -6,7 +6,7 @@ namespace RecipeWebsite.Models
     {
         [Key]
         public int RecipeItemId { get; set; }
-
+        
         public string? RecipeDirection { get; set; }
 
         public int? RecipeId { get; set; }

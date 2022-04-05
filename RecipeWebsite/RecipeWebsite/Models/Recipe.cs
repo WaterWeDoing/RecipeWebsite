@@ -8,7 +8,7 @@ namespace RecipeWebsite.Models
         [Key]
         public int RecipeId { get; set; }
 
-        
+        [Required]
         public string? SubmitterId { get; set; }
 
         [Required]

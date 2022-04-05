@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -40,13 +41,16 @@ namespace RecipeWebsite.Pages
 
         private readonly IRecipeRepo _repo;
 
+        private readonly UserManager<RecipeUser> _userManager;
+
         [BindProperty]
         [Display(Name = "Main Ingredient")]
         public string MainIngredient { get; set; }
 
-        public AddRecipeModel(IRecipeRepo repo)
+        public AddRecipeModel(IRecipeRepo repo, UserManager<RecipeUser> userManager)
         {
             _repo = repo;
+            _userManager = userManager;
         }
 
 
@@ -54,6 +58,8 @@ namespace RecipeWebsite.Pages
 
         public RedirectToPageResult OnPost()
         {
+            Recipe.SubmitterId = _userManager.GetUserId(User);
+
             var mainIngredient = new MainIngredient
             {
                 Ingredient = MainIngredient,
@@ -78,11 +84,17 @@ namespace RecipeWebsite.Pages
             return RedirectToPage("ItemIngredients", new {Id = Recipe.RecipeId} );
         }
 
-        public void OnGet()
+        public IActionResult OnGet()
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToPage("/Account/Login", new {returnUrl="/AddRecipe", area = "Identity"});
+            }
+
             var meals = from MealEnum d in Enum.GetValues(typeof(MealEnum))
                 select new { ID = (int)d, Name = d.ToString() };
             MealSelect = new SelectList(meals, "ID", "Name");
+            return Page();
         }
     }
 }

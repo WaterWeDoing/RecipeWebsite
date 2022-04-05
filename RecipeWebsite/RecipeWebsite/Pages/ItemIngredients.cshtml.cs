@@ -34,6 +34,7 @@ namespace RecipeWebsite.Pages
 
                 itemDb.Item = item.Item;
                 itemDb.Ingredients = item.Ingredients;
+                itemDb.RecipeDirection = item.RecipeDirection;
                 _recipeItemRepo.SaveRecipeItem(itemDb);
             }
 
