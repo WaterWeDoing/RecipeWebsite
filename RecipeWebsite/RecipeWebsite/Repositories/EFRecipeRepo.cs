@@ -33,6 +33,8 @@ namespace RecipeWebsite.Repositories
         {
             var r = _context.Recipes
                 .Include(r => r.RecipeItems)
+                .Include(r => r.Submitter)
+                .Include(r => r.MainIngredients)
                 .SingleOrDefault(x => x.RecipeId == id);
 
             return r;

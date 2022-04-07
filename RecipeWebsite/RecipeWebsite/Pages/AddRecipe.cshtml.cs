@@ -6,13 +6,14 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using RecipeWebsite.Enums;
 using RecipeWebsite.Models;
 using RecipeWebsite.Repositories.Interfaces;
+using RecipeWebsite.Services.Interfaces;
 
 namespace RecipeWebsite.Pages
 {
     public class AddRecipeModel : PageModel
     {
         [BindProperty]
-        public Recipe Recipe { get; set; }
+        public Recipe Recipe { get; set; } = new ();
 
         public SelectList MealSelect { get; set; }
 
@@ -43,22 +44,28 @@ namespace RecipeWebsite.Pages
 
         private readonly UserManager<RecipeUser> _userManager;
 
+        private readonly IImageService _imageService;
+
         [BindProperty]
         [Display(Name = "Main Ingredient")]
         public string MainIngredient { get; set; }
 
-        public AddRecipeModel(IRecipeRepo repo, UserManager<RecipeUser> userManager)
+        public AddRecipeModel(IRecipeRepo repo, UserManager<RecipeUser> userManager, IImageService imageService)
         {
             _repo = repo;
             _userManager = userManager;
+            _imageService = imageService;
         }
 
 
 
 
-        public RedirectToPageResult OnPost()
+        public async Task<RedirectToPageResult> OnPost()
         {
             Recipe.SubmitterId = _userManager.GetUserId(User);
+            Recipe.PhotoImage = await _imageService.EncodeImageAsync(Recipe.FormFile);
+            Recipe.ContentType = _imageService.ContentType(Recipe.FormFile);
+
 
             var mainIngredient = new MainIngredient
             {

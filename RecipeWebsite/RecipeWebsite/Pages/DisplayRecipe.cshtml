@@ -1,28 +1,78 @@
 ﻿@page
-@using Microsoft.EntityFrameworkCore
+@using RecipeWebsite.Services.Interfaces
+@inject IImageService _imageService
 @model RecipeWebsite.Pages.DisplayRecipeModel
 @{
     ViewData["Title"] = Model.Recipe.Name;
 }
 
 
-<div>
-    <h1>@Model.Recipe.Name</h1>
-    <br />
-    <h2>Description</h2>
-    <p>@Model.Recipe.LongDescription</p>
-    <h2>Ingredients</h2>
-
-    <p>
-@*        <ol class="list-group list-group-numbered">
-
-            @foreach (string i in Model.Recipe.IngredientList)
+<div class="row">
+    <div class="col text-center">
+        <H1>@Model.Recipe.Name</H1>
+        <div>
+            <br />
+            <h4>average Ratings: 3 Submitter: @Model.Recipe.Submitter.FirstName</h4>
+            <br />
+        </div>
+        <div>
+            @if (Model.Recipe.PhotoImage != null)
             {
-                <li class="list-group-item">@i</li>
+                <img class="img-fluid" style="max-width: 500px;" src="@_imageService.DecodeImage(Model.Recipe.PhotoImage, Model.Recipe.ContentType)" alt="Recipe Picture" />
             }
-        </ol>*@
-    </p>
+        </div>
+        <div>
+            <br />
+            <h4>Servings: @Model.Recipe.Servings &nbsp; Preperation Time: @Model.Recipe.PrepTime &nbsp;  Cooking Time: @Model.Recipe.CookTime </h4>
+        </div>
+        <div>
+            @(Model.Recipe.LongDescription ?? Model.Recipe.ShortDescription)
+        </div>
+        <div>
+            <label>Main Ingredients</label>
+            @foreach (var ingredient in Model.Recipe.MainIngredients)
+            {
+                <div>@ingredient.Ingredient</div>
+            }
+        </div>
+        <div>
+            <label>Recipe Items</label>
+            @foreach (var ri in Model.Recipe.RecipeItems)
+            {
+                <div>@ri.Item
+                <br />
+                @foreach (var item in ri.Ingredients)
+                    {
+                        <div>@item</div>  
+                    }
+                    <label>Recipe Directions</label>
+                @ri.RecipeDirection
+                </div>
+            }
+        </div>
 
-    <h2>Servings</h2>
-    <p>@Model.Recipe.Servings</p>
+    </div>
 </div>
+
+
+
+
+@*
+    Recipe Name, Ratings, Submitter
+    Picture
+    Servings, Prep Time, Cook time
+    Main Ingredients
+    Recipe Items
+    { LOOP over
+    Recipe Ingredients
+    Recipe directions
+    }
+
+
+    Long description ?? short description
+
+
+
+
+
+*@

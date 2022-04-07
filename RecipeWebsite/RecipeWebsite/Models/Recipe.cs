@@ -14,17 +14,19 @@ namespace RecipeWebsite.Models
         [Required]
         [MaxLength(255), MinLength(3)]
         public string? Name { get; set; }
-        
-        [MaxLength(2500)]
-        [Display(Name = "Description")]
-        public string? LongDescription { get; set; }
-
-        public int? Servings { get; set; }
 
         [MaxLength(100), MinLength(5)]
         [Display(Name = "Short Description")]
         [Required]
         public string? ShortDescription { get; set; }
+
+        [MaxLength(2500)]
+        [Display(Name = "Description")]
+        public string? LongDescription { get; set; }
+
+        public int Servings { get; set; } = 1;
+
+        
 
         [NotMapped]
         [Display(Name = "Recipe Image")]

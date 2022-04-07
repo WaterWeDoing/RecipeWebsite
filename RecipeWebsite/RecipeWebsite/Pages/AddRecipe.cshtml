@@ -9,34 +9,34 @@
 	<div class="row">
 		<h1>Add Recipe</h1>
 
-		<form method="post" asp-page="AddRecipe" id="frmAdd">
+		<form method="post" asp-page="AddRecipe" id="frmAdd" enctype="multipart/form-data">
 			<div class="mb-2">
 				<label asp-for="Recipe.Name"></label>
 				<div><span asp-validation-for="Recipe.Name" class="text-danger"></span></div>
-				<input class="form-control" asp-for="Recipe.Name" />
+				<input class="form-control" id="txtName" asp-for="Recipe.Name" />
 			</div>
 			<div class="mb-2">
 				<label asp-for="Recipe.LongDescription"></label>
 				<div><span asp-validation-for="Recipe.LongDescription" class="text-danger"></span></div>
-				<textarea asp-for="Recipe.LongDescription" class="form-control"></textarea>
+				<textarea asp-for="Recipe.LongDescription" class="form-control" id="txtLongDescription"></textarea>
 			</div>
             <div class="mb-2">
                 <label asp-for="Recipe.Servings"></label>
                 <div><span asp-validation-for="Recipe.Servings" class="text-danger"></span></div>
-                <input asp-for="Recipe.Servings" class="form-control" />
+                <input asp-for="Recipe.Servings" class="form-control" id="txtServings" />
             </div>
             <div class="mb-2">
                 <label asp-for="Recipe.Meal"></label>
                 <select asp-for="Recipe.Meal" 
                         class="form-control form-select" 
-                        asp-items="@Model.MealSelect"></select>
+                        asp-items="@Model.MealSelect" id="selMeal"></select>
             </div>
             
 
             <div class="mb-2 row">
                 <div class="col-3">
                     <label asp-for="PrepTimeHour"></label>
-                    <input asp-for="PrepTimeHour" class="form-control" />
+                    <input asp-for="PrepTimeHour" class="form-control"/>
                 </div>
                 <div class="col-3">
                     <label asp-for="PrepTimeMinute"></label>
@@ -56,12 +56,12 @@
             <div class="mb-2">
                 <label asp-for="MainIngredient"></label>
                 <div><span asp-validation-for="MainIngredient" class="text-danger"></span></div>
-                <input class="form-control" asp-for="MainIngredient" />
+                <input class="form-control" asp-for="MainIngredient" id="txtMainIngredient" />
             </div>
             <div class="mb-2">
                 <label asp-for="Recipe.ShortDescription"></label>
                 <div><span asp-validation-for="Recipe.ShortDescription" class="text-danger"></span></div>
-                <textarea asp-for="Recipe.ShortDescription" class="form-control"></textarea>
+                <textarea asp-for="Recipe.ShortDescription" class="form-control" id="txtShortDescription"></textarea>
             </div>
             <div class="mb-3">
                 <label asp-for="Recipe.FormFile" class="form-label"></label>
@@ -89,6 +89,8 @@
 
            
             <button class="btn btn-primary" type="button" id="btnSubmit">Submit Recipe</button>
+
+            <button class="btn btn-secondary" type="button" id="btnTest">Auto Fill</button>
 		</form>
 
 	</div>
@@ -111,6 +113,16 @@
 			$("#selItems option").prop("selected", "selected");
 			$('#frmAdd').submit();
 		});
+
+        $('#btnTest').click(() => {
+            $('#txtName').val('AutoFill');
+            $('#txtLongDescription').val('This has been autofilled');
+            $('#txtMainIngredient').val('Cats');
+            $('#txtShortDescription').val('This has also been autofilled');
+            $('#selItems').append('<option value="Cats">Cats</option>');
+            $('#selItems').append('<option value="moreCats">More Cats</option>');
+        });
+
 	});
 </script>
 }
