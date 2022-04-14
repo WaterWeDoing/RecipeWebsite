@@ -14,7 +14,12 @@ namespace RecipeWebsite.Repositories
             _context = context;
         }
 
-
+        public void UpdateRecipe(Recipe recipe)
+        { 
+            _context.Recipes.Update(recipe);
+            _context.SaveChanges();
+        
+        }
 
         public void AddRecipe(Recipe recipe)
         {
@@ -34,6 +39,7 @@ namespace RecipeWebsite.Repositories
             var r = _context.Recipes
                 .Include(r => r.RecipeItems)
                 .Include(r => r.Submitter)
+                .Include(r => r.Comments)
                 .Include(r => r.MainIngredients)
                 .SingleOrDefault(x => x.RecipeId == id);
 

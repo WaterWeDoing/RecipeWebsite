@@ -57,6 +57,8 @@ namespace RecipeWebsite.Models
 
         public RecipeUser? Submitter { get; set; }
 
+        public ICollection<RecipeComment> Comments { get; set; } = new HashSet<RecipeComment>();
+
         public ICollection<RecipeRating> RecipeRatings { get; set; } = new HashSet<RecipeRating>();
 
         public ICollection<MainIngredient> MainIngredients { get; set; } = new HashSet<MainIngredient>();

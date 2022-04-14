@@ -1,6 +1,7 @@
 ﻿@page
 @using RecipeWebsite.Services.Interfaces
 @inject IImageService _imageService
+@inject UserManager<RecipeUser> _userManager
 @model RecipeWebsite.Pages.DisplayRecipeModel
 @{
     ViewData["Title"] = Model.Recipe.Name;
@@ -39,20 +40,64 @@
             <label>Recipe Items</label>
             @foreach (var ri in Model.Recipe.RecipeItems)
             {
-                <div>@ri.Item
-                <br />
-                @foreach (var item in ri.Ingredients)
+                <div>
+                    @ri.Item
+                    <br />
+                    @foreach (var item in ri.Ingredients)
                     {
-                        <div>@item</div>  
+                        <div>@item</div>
                     }
                     <label>Recipe Directions</label>
-                @ri.RecipeDirection
+                    @ri.RecipeDirection
                 </div>
             }
         </div>
+        <hr />
+        <div>
+            @foreach (var rc in Model.Recipe.Comments)
+            {
+                <div>
+                    @rc.Comment
+                    
+                    <p>Submitted by: @rc.Submitter.FirstName</p>
+                </div>
+
+            }
+
+        </div>
+
+
+
+
+
+
+        @if (User.Identity.IsAuthenticated)
+        {
+            <form method="post">
+              @Html.HiddenFor(m => m.Comment.RecipeId)
+
+                <div class="form-group">
+                    <label class="h2 control-label font-weight-bold">Add Comment</label>
+                    <textarea asp-for="Comment.Comment" class="form-control" rows="5"></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-dark w-100 btn-sm">Submit</button>
+            </form>
+        }
+        else
+        {
+            <a class="btn w-100 btn-sm btn-dark" asp-area="Identity" asp-page="/Account/Login">
+                Login to add comments
+            </a>
+        }
 
     </div>
 </div>
+
+
+
+
+
 
 
 
